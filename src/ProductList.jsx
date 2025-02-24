@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'; // Add useSelector
 import { addItem } from './CartSlice'; // Import the addItem action from CartSlice
 import './ProductList.css';
 import CartItem from './CartItem';
@@ -9,6 +9,12 @@ function ProductList() {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false);
     const [addedToCart, setAddedToCart] = useState({}); // Track which plants are added to the cart
+
+    // Retrieve cart items from the Redux store
+    const cart = useSelector((state) => state.cart.items);
+
+    // Calculate the total number of items in the cart
+    const totalItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
     const plantsArray = [
         // Your existing plantsArray data
@@ -105,6 +111,8 @@ function ProductList() {
                                         id="mainIconPathAttribute"
                                     ></path>
                                 </svg>
+                                {/* Display the total number of items in the cart */}
+                                <span className="cart-badge">{totalItemsInCart}</span>
                             </h1>
                         </a>
                     </div>
